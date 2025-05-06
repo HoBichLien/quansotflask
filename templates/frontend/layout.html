@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>{{ title or "QUẦN SỌT NAM" }}</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="{{keyword or 'quần sọt nam'}}">
+    <meta name="format-detection" content="{{desc or 'chất lượng cao'}}">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="author" content="">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='frontend/css/normalize.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='frontend/icomoon/icomoon.css')}}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='frontend/css/vendor.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='frontend/css/style.css')}}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- script
+    ================================================== -->
+    <script src="{{url_for('static',filename='frontend/js/modernizr.js')}}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+  </head>
+  <body>
+
+    <div class="preloader-wrapper">
+      <div class="preloader">
+      </div>
+    </div>
+
+    <div class="search-popup">
+      <div class="search-popup-container">
+
+        <form role="search" method="get" class="search-form" action="">
+          <input type="search" id="search-form" class="search-field" placeholder="Nhập và nhấn enter" value="" name="s" />
+          <button type="submit" class="search-submit"><a href="{{url_for('trang-chu.sanpham')}}"><i class="icon icon-search"></i></a></button>
+        </form>
+
+        <h5 class="cat-list-title">Danh mục </h5>
+        
+        <ul class="cat-list">
+          <li class="cat-list-item">
+            <a href="{{url_for('trang-chu.sanpham')}}" title="Men Jackets">Jean</a>
+          </li>
+          <li class="cat-list-item">
+            <a href="{{url_for('trang-chu.sanpham')}}" title="Fashion">Kaki</a>
+          </li>
+          <li class="cat-list-item">
+            <a href="{{url_for('trang-chu.sanpham')}}" title="Casual Wears">Thun</a>
+          </li>
+          <li class="cat-list-item">
+            <a href="{{url_for('trang-chu.sanpham')}}" title="Women">Cotton</a>
+          </li>
+          <li class="cat-list-item">
+            <a href="{{url_for('trang-chu.sanpham')}}" title="Trending">Nỉ</a>
+          </li>
+          <li class="cat-list-item">
+            <a href="{{url_for('trang-chu.sanpham')}}" title="Hoodie">Vải dù</a>
+          </li>
+          <li class="cat-list-item">
+            <a href="{{url_for('trang-chu.sanpham')}}" title="Kids">Linen</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <header id="header">
+      <div id="header-wrap">
+        <nav class="secondary-nav border-bottom">
+          <div class="container">
+            <div class="row d-flex align-items-center">
+              <div class="col-md-3 header-contact">
+                <p style="color: red;">Hotline<strong style="color: rgb(30, 0, 255);">+84 0938 540 335</strong>
+                </p>
+              </div>
+              <div class="col-md-6 shipping-purchase text-center" style="color: red;font-weight: bold;">
+                <p>Miễn phí giao hàng toàn quốc cho đơn hàng trên 99.000 vnd</p>
+              </div>
+              <div class="col-md-3 col-sm-12 user-items">
+                <ul class="d-flex justify-content-end list-unstyled">
+                  {% if current_user.is_authenticated %}
+                  <li>
+                    <a href="{{url_for('trang-chu.profile')}}">
+                      <i class="fas fa-user " style="color:  rgb(25, 245, 47);" >{{current_user.fullname}}</i>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="{{url_for('secure.logout')}}">
+                      <i class="fas fa-sign-out-alt" style="color: rgb(85, 0, 255);">Đăng xuất</i>
+                    </a>
+                  </li>
+                  {% else %}
+                  <li>
+                    <a href="{{url_for('secure.register')}}">
+                      <i class="fas fa-user " style="color:  rgb(100, 52, 242);" >Đăng ký</i>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="{{url_for('secure.login')}}">
+                      <i class="fas fa-sign-in-alt" style="color:  rgb(235, 107, 28);">Đăng nhập</i>
+                    </a>
+                  </li>
+                  {% endif %}
+                 
+                  <li>
+                    <a href="{{ url_for('trang-chu.cart') }}" style="position: relative; display: inline-block;padding-top: 10px;">
+                      <i class="icon icon-shopping-cart" style="font-size: 24px; color: rgb(22, 15, 235);"></i>
+                      {% set cart = session.get('cart', {}) %}
+                      <span id="giohang" style="
+                          padding-top: 20px;
+                          display: flex;
+                          align-items: center;
+                          justify-content: center;
+                          color: white;
+                          font-size: 12px;
+                          border-radius: 50%;
+                          position: absolute;
+                          top: 5px;
+                          right: -5px;
+                          height: 20px;
+                          min-width: 20px;
+                          padding: 0px 3px;
+                          background-color: brown;
+                          z-index: 1;">
+                        {{ cart | selectattr('quantity') | map(attribute='quantity') | sum or 0 }}
+                      </span>
+                    </a>
+                    
+                  </li>
+                  <li>
+                    <a href="wishlist.html">
+                      <i class="icon icon-heart"></i>
+                    </a>
+                  </li>
+                  <li class="user-items search-item pe-3">
+                    <a href="#" class="search-button">
+                      <i class="icon icon-search"></i>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </nav>
+        <nav class="primary-nav padding-small">
+          <div class="container">
+            <div class="row d-flex align-items-center">
+              <div class="col-lg-2 col-md-2">
+                <div class="main-logo">
+                  <a href="{{url_for('trang-chu.index')}}">
+                    <img style="width: 120px; height: 80px ; padding-top: 2px;" src="{{url_for('static',filename='frontend/images/logo.png')}}" alt="logo" >
+                  </a>
+                </div>
+              </div>
+              <div class="col-lg-10 col-md-10">
+                <div class="navbar">
+
+                  <div id="main-nav" class="stellarnav d-flex justify-content-end right">
+                   {{menu_home | safe}}
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    {% block content %}
+    {% endblock %}
+
+    <footer id="footer">
+      <div class="container">
+        <div class="footer-menu-list">
+          <div class="row d-flex flex-wrap justify-content-between">
+            <div class="col-lg-6 col-md-6 col-sm-6">
+              <div class="footer-menu">
+                <h5 class="widget-title " style="text-align:center">
+                  <a href="{{url_for('trang-chu.index')}}">
+                    <img src="{{url_for('static',filename='frontend/images/logo.png')}}" alt="logo" width="150">
+                  </a>
+                  
+                  <p>Chào mừng bạn đến với <em>**LIEN-NAM**</em>  <br> Thương hiệu chuyên cung cấp quần sọt nam phong cách, thoải mái và chất lượng. 
+                    Chúng tôi mang đến đa dạng mẫu mã, từ năng động đến lịch lãm, phù hợp cho mọi dịp. 
+                    Mua sắm dễ dàng, giao hàng nhanh chóng, cam kết sản phẩm bền đẹp. Hãy khám phá ngay tại website của chúng tôi!</p>
+                </h5>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6">
+              <div class="footer-menu">
+                <h5 class="widget-title">Liên hệ</h5>
+                <p>Bạn cần hỗ trợ gì hãy liên hệ với chúng tôi? <a href="#" class="email">quansotliennam@gmail.com</a>
+                </p>
+                <p>Bạn cần giải quyết gấp? Gọi ngay cho chúng tôi <br>
+                  <strong>+84 0938 540 335</strong>
+                  <p>395 Ngô Gia Tự, Phường 3, Quận 10, Hồ Chí Minh, Việt Nam</p>
+                </p>
+                <a href="{{url_for('trang-chu.sitemap')}}"  style="color: red;font-weight: bold;text-align: center;text-decoration: underline;">Sitemap</a>
+              </div>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12">
+              
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr>
+    </footer>
+
+    <div id="footer-bottom">
+      <div class="container">
+        <div class="d-flex align-items-center flex-wrap justify-content-between">
+          <div class="copyright">
+            <p>Thuộc chủ quyền của <a href="">HO THI BICH LIEN</a> Phân phối bởi  <a href="">QUẦN SHORT NAM</a>
+            </p>
+          </div>
+          <div class="payment-method">
+            <p style="margin-right: 20px;">Lựa chọn thanh toán    </p>
+            <div class="card-wrap">
+              <img src="{{url_for('static',filename='frontend/images/vs.jpg')}}" alt="visa" width="50">
+              <img src="{{url_for('static',filename='frontend/images/mtc.png')}}" alt="mastercard" width="40">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <script>
+      $(document).on('click', '.themgiohang', function (e) {
+            e.preventDefault();
+            const productId = $(this).data('product-id');
+            $.ajax({
+                url: '{{url_for("trang-chu.giohang")}}',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ product_id: productId, quantity: 1 }),
+                success: function (ketqua) {
+                    alert('Thêm sản phẩm vào giỏ hàng!');
+                    updateCartPreview(ketqua.cart);
+                },
+                error: function () {
+                    alert('Error adding product to cart.');
+                }
+            });
+        });
+        
+            // Thay đổi cách truyền dữ liệu
+            document.addEventListener('DOMContentLoaded', function() {
+            var cartData = JSON.parse('{{ cart | tojson | safe }}');
+            updateCartPreview(cartData);
+        });
+            function updateCartPreview(cart) {
+            let cartCount = 0;
+            for (let productId in cart) {
+                cartCount += cart[productId].quantity;
+            }
+            $('#giohang').text(cartCount);
+        }
+  
+      
+      
+  </script>
+    <script src="{{url_for('static',filename='frontend/js/jquery-1.11.0.min.js')}}"></script>
+    <script src="{{url_for('static',filename='frontend/js/plugins.js')}}"></script>
+    <script src="{{url_for('static',filename='frontend/js/script.js')}}"></script>
+    <!-- Bootstrap Bundle JS (bắt buộc để tab hoạt động) -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script> -->
+
+  </body>
+</html>

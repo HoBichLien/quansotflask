@@ -1,0 +1,176 @@
+{% extends("backend/layout.html")%}
+
+{% block content%}
+
+<div class="content">
+    <div class="container">
+      <div class="page-title">
+        <h3 style="color: red;text-align: center;font-size: 50px;font-weight: bold;">
+            Forms Nhập /Sửa Sản Phẩm</h3>
+      </div>
+      <div class="row">
+        <div class="col-lg-12"> 
+          <div class="card">
+            <div class="card-header text-center text-info">Thông tin nhập sản phẩm</div>
+            <div class="card-body">
+              <h5 class="card-title"></h5>
+              <form method="post" enctype="multipart/form-data" novalidate>
+                {{form.hidden_tag()}}
+                <div class="mb-3 row">
+                  <label class="col-sm-2">Tên sản phẩm</label>
+                  <div class="col-sm-10">
+                   {{form.name()}}
+                   {% for error in form.name.errors %}
+                    <div class="text-danger">{{error}}</div>
+                    {% endfor %}
+                  </div>
+                </div>
+                <div class="line"></div>
+                <br />
+                <div class="mb-3 row">
+                  <label class="col-sm-2">Màu sản phẩm</label>
+                  <div class="col-sm-10">
+                   {{form.color()}}
+                   {% for error in form.color.errors %}
+                    <div class="text-danger">{{error}}</div>
+                    {% endfor %}
+                  </div>
+                </div>
+                <div class="line"></div>
+                <br />
+                <div class="mb-3 row">
+                  <label class="col-sm-2">Chất liệu sản phẩm</label>
+                  <div class="col-sm-10">
+                   {{form.chatlieu()}}
+                   {% for error in form.chatlieu.errors %}
+                    <div class="text-danger">{{error}}</div>
+                    {% endfor %}
+                  </div>
+                </div>
+                <div class="line"></div>
+                <br />
+                <div class="mb-3 row">
+                  <label class="col-sm-2">Giá sản phẩm</label>
+                  <div class="col-sm-10">
+                   {{form.price()}}
+                   {% for error in form.price.errors %}
+                    <div class="text-danger">{{error}}</div>
+                    {% endfor %}
+                  </div>
+                </div>
+                <div class="line"></div>
+                <br />
+                <div class="mb-3 row">
+                    <label class="col-sm-2">Mô tả sản phẩm</label>
+                    <div class="col-sm-10">
+                     {{form.desc()}}
+                     {% for error in form.desc.errors %}
+                      <div class="text-danger">{{error}}</div>
+                      {% endfor %}
+                    </div>
+                  </div>
+                  <div class="line"></div>
+                  <br />
+                  <div class="mb-3 row">
+                    <label class="col-sm-2">Sản phẩm tồn kho</label>
+                    <div class="col-sm-10">
+                     {{form.tonkho()}}
+                     {% for error in form.tonkho.errors %}
+                      <div class="text-danger">{{error}}</div>
+                      {% endfor %}
+                    </div>
+                  </div>
+                  <div class="line"></div>
+                  <br />
+                  <div class="mb-3 row">
+                    <label class="col-sm-2">Hình sản phẩm</label>
+                    <div class="col-sm-10">
+                     {{form.image()}}
+                     {% for error in form.image.errors %}
+                      <div class="text-danger">{{error}}</div>
+                      {% endfor %}
+                    </div>
+                  </div>
+                  <div class="line"></div>
+                  <br />
+                  <div class="mb-3 row">
+                    <label class="col-sm-2">Cân nặng (kg)</label>
+                    <div class="col-sm-10">
+                     {{form.cannang()}}
+                     {% for error in form.cannang.errors %}
+                      <div class="text-danger">{{error}}</div>
+                      {% endfor %}
+                    </div>
+                  </div>
+                  <div class="line"></div>
+                  <br />
+                  <div class="mb-3 row">
+                    <label class="col-sm-2">Chiều cao (cm)</label>
+                    <div class="col-sm-10">
+                     {{form.chieucao()}}
+                     {% for error in form.chieucao.errors %}
+                      <div class="text-danger">{{error}}</div>
+                      {% endfor %}
+                    </div>
+                  </div>
+                  <div class="line"></div>
+                  <br />
+                  <div class="mb-3 row">
+                    <label class="col-sm-2">Size (S,M,X,XL,XXL...)</label>
+                    <div class="col-sm-10">
+                     {{form.size_type()}}
+                     {% for error in form.size_type.errors %}
+                      <div class="text-danger">{{error}}</div>
+                      {% endfor %}
+                    </div>
+                  </div>
+                  <div class="line"></div>
+                  <br />
+                  <div class="mb-3 row">
+                    <label class="col-sm-2">Kích thước</label>
+                    <div class="col-sm-10">
+                     {{form.kichthuoc()}}
+                     {% for error in form.kichthuoc.errors %}
+                      <div class="text-danger">{{error}}</div>
+                      {% endfor %}
+                    </div>
+                  </div>
+                  <div class="line"></div>
+                  <br />
+                  <div class="mb-3 row">
+                    <label class="col-sm-2">Trạng thái</label>
+                    <div class="col-sm-10">
+                        {{form.is_active()}}
+                    </div>
+                  </div>
+                  <div class="line"></div>
+                  <br />
+                <div class="mb-3 row">
+                  <label class="col-sm-2">Danh mục</label>
+                  <div class="col-sm-10">
+                    {{form.category_id()}}
+                  </div>
+                </div>
+                <div class="line"></div>
+                <br />
+               
+                <div class="mb-3 row">
+                  <div class="col-sm-4 offset-sm-2">
+                    <button type="submit" class="btn btn-primary mb-2">
+                        <i class="fas fa-save"></i> Save
+                      </button>
+                    <a href="{{url_for('quan-sot.pro.index')}}" class="btn btn-danger mb-2">
+                      <i class="fas fa-times"></i> Cancel
+                    </a>
+                    
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{%endblock%}

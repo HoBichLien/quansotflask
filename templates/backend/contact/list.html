@@ -1,0 +1,85 @@
+{% extends("backend/layout.html")%}
+
+{% block content%}
+
+<div class="content">
+    <div class="container">
+        <div class="page-title">
+            <h3 style="color: red;text-align: center;font-size: 50px;font-weight: bold;">
+                LIST KHÁCH HÀNG LIÊN HỆ </h3>
+        </div>
+        {% with tb=get_flashed_messages() %}
+        {% if tb %}
+            <!-- Then put toasts within -->
+            <div style="position: fixed; bottom: 1rem; right: 1rem; z-index: 1050;">
+               <div class="toast" role="alert" aria-live="assertive" ariaatomic="true">
+                   <div class="toast-header" style="background-color: orange;color: red;">
+                      <strong class="me-auto">Thông báo</strong>
+                      <button type="button" class="btn-close" data-bs-dismiss="toast"
+                         aria-label="Close"></button>
+                  </div>
+                  <div class="toast-body" style="background-color: forestgreen;color: bisque;">
+                     {{tb[0]}}
+                  </div>
+               </div>
+            </div>
+       {% endif %}
+    {% endwith %}
+        <div class="row">
+            <div class="col-md-12 col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <!-- <a href=""
+                            style="color: rgb(239, 229, 229);background-color: rgb(2, 151, 2);text-align: center;font-weight: bold;font-size: 20px;height:150px;">
+                            <i class="fas fa-plus-square"></i> Thêm sản phẩm</a> -->
+                    </div>
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                    {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                    {% endif %}
+                    {% endwith %}
+                    <div class="card-body">
+                        <p class="card-title"></p>
+                        <table class="table table-hover" id="dataTables-example" width="100%">
+                            <thead>
+                                <tr style="color: rgb(13, 0, 255);font-weight: bold;">
+                                    <th>ID</th>
+                                    <th>Tên</th>
+                                    <th>Email</th>
+                                    <th>Điện thoại</th>
+                                    <th>Nội dung</th>
+                                    <th>Trạng thái</th>
+                                    <th>Ngày rep</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for contact in contacts %}
+                                <tr>
+                                    <td>{{ contact.id }}</td>
+                                    <td>{{ contact.name }}</td>
+                                    <td>{{ contact.email }}</td>
+                                    <td>{{ contact.phone }}</td>
+                                    <td>{{ contact.message }}</td>
+                                    <td>{% if contact.status == "Chưa xử lý" %}
+                                        <a href="{{ url_for('quan-sot.contact.reply_contact', id=contact.id) }}">✏️ Cần phản hồi</a>
+                                        {% else %}
+                                            ✅ Đã phản hồi
+                                        {% endif %}
+                                    </td>
+                                   <td>
+                                    {{contact.create_at}}
+                                   </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{%endblock%}

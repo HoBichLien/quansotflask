@@ -1,0 +1,91 @@
+{% extends("backend/layout.html")%}
+
+{% block content%}
+
+<div class="content">
+    <div class="container">
+        <div class="page-title">
+            <h3 style="color: red;text-align: center;font-size: 50px;font-weight: bold;">
+                DANH SÁCH NHÀ THIẾT KẾ SẢN PHẨM</h3>
+        </div>
+        {% with tb=get_flashed_messages() %}
+        {% if tb %}
+            <!-- Then put toasts within -->
+            <div style="position: fixed; bottom: 1rem; right: 1rem; z-index: 1050;">
+               <div class="toast" role="alert" aria-live="assertive" ariaatomic="true">
+                   <div class="toast-header" style="background-color: orange;color: red;">
+                      <strong class="me-auto">Thông báo</strong>
+                      <button type="button" class="btn-close" data-bs-dismiss="toast"
+                         aria-label="Close"></button>
+                  </div>
+                  <div class="toast-body" style="background-color: forestgreen;color: bisque;">
+                     {{tb[0]}}
+                  </div>
+               </div>
+            </div>
+       {% endif %}
+    {% endwith %}
+        <div class="row">
+            <div class="col-md-12 col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <a href="{{url_for('quan-sot.blog.add')}}"
+                            style="color: rgb(239, 229, 229);background-color: rgb(2, 151, 2);text-align: center;font-weight: bold;font-size: 20px;height:150px;">
+                            <i class="fas fa-plus-square"></i> Thêm sản phẩm</a>
+                    </div>
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                    {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                    {% endif %}
+                    {% endwith %}
+                    <div class="card-body">
+                        <p class="card-title"></p>
+                        <table class="table table-hover" id="dataTables-example" width="100%">
+                            <thead>
+                                <tr style="color: rgb(13, 0, 255);font-weight: bold;">
+                                    <th>STT</th>
+                                    <th>Tên SP</th>
+                                    <th>Nhà Thiết kế</th>
+                                    <th>Mô tả</th>
+                                    <th>Hình</th>
+                                    <th>Trạng thái</th>
+                                    <th>Ngày tạo</th>
+                                    <th>Hành động</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for dm in pro %}
+                                <tr>
+                                    <td>{{dm.id}}</td>
+                                    <td>{{dm.name}}</td>
+                                    <td>{{dm.designer}}</td>
+                                    <td>{{dm.desc|safe}}</td>
+                                    <td>
+                                        <img src="{{url_for('static',filename='upload/')}}{{dm.image}}" width="50px" alt="">
+                                    </td>
+                                    <td>
+                                        {{dm.status}}
+                                    </td>
+                                    <td>{{dm.create_at.strftime('%d/%m/%Y')}}</td>
+                                    
+                                    
+                                    <td>
+                                        <a href="{{url_for('quan-sot.blog.edit',id=dm.id)}}"><i
+                                                class="fas fa-pen-nib"></i></a>
+                                        <a href="{{url_for('quan-sot.blog.delete',id=dm.id)}}"><i
+                                                class="fas fa-trash "></i></a>
+                                    </td>
+                                </tr>
+                                {% endfor%}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{%endblock%}

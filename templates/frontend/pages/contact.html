@@ -1,0 +1,261 @@
+{% extends ('frontend/layout.html')%}
+{% block content %}
+
+
+<section class="site-banner " >
+  <style>
+      .site-banner {
+        color: red;
+        background-image: url("{{ url_for('static', filename='frontend/images/b5.jpg') }}");
+
+      }
+    </style>
+  <div class="container">
+    <div class="row">
+        <h1 style="color: blue;" >Contact</h1>
+          <span >
+            <a href="{{url_for('trang-chu.index')}}">Home /</a>
+          </span>
+          <span class="item">Contact</span>
+    </div>
+  </div>
+</section>
+
+  <section class="contact-information padding-large">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="section-header">
+            <h2 class="section-title" style="color: rgb(255, 0, 0);">Liên hệ khi cần</h2>
+          </div>
+          <div class="contact-detail">
+            <div class="detail-list">
+              <p>Khi cần liên hệ Bạn hãy sử dụng form kế bên để gửi câu hỏi,
+                 yêu cầu hỗ trợ hoặc phản hồi. Chúng tôi cam kết phản hồi nhanh chóng qua email hoặc số điện thoại đã cung cấp. 
+                 Đội ngũ hỗ trợ luôn sẵn sàng giúp đỡ,
+                 đảm bảo trải nghiệm tốt nhất cho khách hàng.</p>
+              <ul class="list-unstyled list-icon">
+                <li>
+                  <a href="#"><i class="icon icon-phone" style="color: blue;"></i>+84 0388 215 124</a>
+                </li>
+                <li>
+                  <a href="quansotliennam@gmail.com"><i class="icon icon-mail" style="color: blue;"></i>quansotliennam@gmail.com</a>
+                </li>
+                <li>
+                  <a href="#"><i class="icon icon-map-pin" style="color: blue;"></i>395 Ngô Gia Tự, Phường 3, Quận 10, Hồ Chí Minh, Việt Nam</a>
+                </li>
+              </ul>
+            </div>
+            <div class="social-links">
+              <h3 style="color: rgb(255, 0, 179);">Liên kết mạng xã hội</h3>
+              <ul class="d-flex list-unstyled">
+                <li><a href="#" class="icon icon-facebook" style="color: blue;"></a></li>
+                <li><a href="#" class="icon icon-youtube-play" style="color: blue;"></a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="contact-information">
+            <div class="section-header">
+              <h2 class="section-title" style="color: rgb(43, 0, 255); font-size: 40px;">ĐIỀN FORM KHI CẦN LIÊN HỆ NHÉ!!!</h2>
+            </div>
+            <form method="post" action="{{ url_for('trang-chu.contact') }}" class="contact-form">
+              {{ form.hidden_tag() }}
+          
+              <div class="form-item">
+                  <label>{{ form.name.label }}</label>
+                  {{ form.name(class="u-full-width bg-light", placeholder="Họ và tên") }}
+          
+                  <label>{{ form.email.label }}</label>
+                  {{ form.email(class="u-full-width bg-light", placeholder="E-mail") }}
+          
+                  <label>{{ form.phone.label }}</label>
+                  {{ form.phone(class="u-full-width bg-light", placeholder="Số điện thoại") }}
+          
+                  <label>{{ form.message.label }}</label>
+                  {{ form.message(class="u-full-width bg-light", placeholder="Nhập nội dung cần hỗ trợ", style="height: 180px;") }}
+              </div>
+          
+              <label>
+                  <input type="checkbox" required>
+                  <span class="label-body" style="color: red;">Tôi đồng ý với tất cả <a href="#" style="color: blue;">điều kiện và quy định</a></span>
+              </label>
+          
+              <button type="submit" class="btn btn-success btn-full btn-medium" style="background-color: rgb(239, 136, 62);">{{ form.submit.label }}</button>
+          </form>
+          
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="google-map">
+    <div class="mapouter">
+      <div class="gmap_canvas ">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.660481086468!2d106.66705177451702!3d10.760628259485982!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752ee488982221%3A0x269b0ba79543168a!2zMzk1IE5nIEdpYSBU4buxLCBQaMaw4budbmcgMywgUXXhuq1uIDEwLCBI4buTIENow60gTWluaCwgVmnhu4d0IE5hbQ!5e0!3m2!1svi!2s!4v1740562075781!5m2!1svi!2s" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+       <br>
+       
+      </div>
+    </div>
+  </section>
+
+  <style>
+    /* Đảm bảo container không bị vỡ */
+.product-store {
+    max-width: 100%;
+    overflow: hidden;
+}
+
+/* Giữ kích thước hình ảnh ổn định */
+.image-holder {
+    width: 100%;
+    height: 250px; /* Chiều cao cố định */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.image-holder img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Hình ảnh sẽ luôn lấp đầy khu vực mà không bị méo */
+    border-radius: 8px;
+}
+
+/* Đảm bảo nội dung không bị tràn */
+.product-item {
+    flex: 1 1 30%; /* Đảm bảo các item co dãn linh hoạt */
+    max-width: 30%;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.product-detail h3 {
+    font-size: 16px;
+    text-align: center;
+    white-space: nowrap; /* Không cho chữ xuống dòng */
+    overflow: hidden;
+    text-overflow: ellipsis; /* Cắt chữ nếu quá dài */
+}
+
+/* Cố định chiều cao cho giá sản phẩm */
+.item-price {
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Hiệu ứng cho nút */
+.cart-button button {
+    transition: 0.3s ease-in-out;
+}
+
+.cart-button button:hover {
+    transform: scale(1.05);
+}
+
+/* Đảm bảo các nút nằm gọn trong sản phẩm */
+.cart-concern {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+  </style>
+  <section id="flash-sales" class="product-store padding-large">
+
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Flash sales - Deals chớp nhoáng</h2>
+      </div>
+      <div class="swiper product-swiper flash-sales overflow-hidden">
+        {% for all in list_8 %}
+        <div class="product-item col-lg-3 col-md-6 col-sm-6">
+          <div class="image-holder">
+            <a href="{{url_for('trang-chu.detail',name=all.name |slug,id=all.id)}}">
+              <img src="{{url_for('static',filename='upload/'+ all.image)}}" alt="{{all.name}}" class="product-image">
+            </a>
+          </div>
+          <div class="cart-concern">
+            <div class="cart-button d-flex justify-content-between align-items-center">
+              <button type="button" data-product-id="{{all.id}}" class="themgiohang btn-wrap cart-link d-flex align-items-center">Thêm giỏ hàng <i
+                  class="icon icon-arrow-io"></i>
+              </button>
+              <button type="button" class="view-btn tooltip d-flex">
+                <a href="{{url_for('trang-chu.sanpham')}}">
+                  <i class="icon icon-screen-full"></i>
+                  <span class="tooltip-text">Xem thêm</span>
+                </a>
+              </button>
+              <button type="button" class="wishlist-btn">
+                <i class="icon icon-heart"></i>
+              </button>
+            </div>
+          </div>
+          <div class="discount " style="color: red; font-weight: bold;">10% Off</div>
+          <div class="product-detail">
+            <h3 class="product-title">
+              <a href="{{url_for('trang-chu.detail',name=all.name |slug,id=all.id)}}">{{all.name}}</a>
+            </h3>
+            <div class="item-price text-primary" >
+              <del class="prev-price" style="color: blue; font-weight: bold;">{{"{:,.0f}".format(all.price+45000)}}/vnd</del> <p style="color: red; font-weight: bold;">{{"{:,.0f}".format(all.price)}}/vnd<p>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+  
+        <div class="swiper-pagination"></div>
+  
+      </div>
+    </div>
+  </section>
+
+  <section id="shipping-information">
+    <hr>
+    <div class="container">
+      <div class="row d-flex flex-wrap align-items-center justify-content-between">
+        <div class="col-md-3 col-sm-6">
+          <div class="icon-box">
+            <i class="icon icon-truck" style="color: blue;"></i>
+            <h4 class="block-title" style="color: rgb(238, 100, 14);">
+              <strong style="color: rgb(14, 238, 40);">Miễn phí toàn quốc</strong>  trên 99.000 vnd
+            </h4>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+          <div class="icon-box">
+            <i class="icon icon-return" style="color: blue;"></i>
+            <h4 class="block-title" style="color: rgb(238, 100, 14);">
+              <strong style="color: rgb(14, 238, 40);">Hoàn tiền</strong> trong vòng 7 ngày
+            </h4>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+          <div class="icon-box">
+            <i class="icon icon-tags1" style="color: blue;"></i>
+            <h4 class="block-title" style="color: rgb(238, 100, 14);">
+              <strong style="color: rgb(14, 238, 40);">Mua càng nhiều giảm càng sâu</strong> 50% off
+            </h4>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+          <div class="icon-box">
+            <i class="icon icon-help_outline" style="color: blue;"></i>
+            <h4 class="block-title" style="color: rgb(238, 100, 14);">
+              <strong style="color: rgb(14, 238, 40);">Bất cứ vấn đề gì?</strong> chúng tôi luôn sẵn sàng hỗ trợ.
+            </h4>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr>
+  </section>
+
+
+{% endblock %}

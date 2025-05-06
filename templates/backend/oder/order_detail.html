@@ -1,0 +1,76 @@
+{% extends 'backend/layout.html' %}
+{% block content %}
+
+<h2 style="color: red;text-align: center;font-size: 50px;font-weight: bold;">Chi tiết đơn hàng #{{ order.id }}</h2>
+{% with tb=get_flashed_messages() %}
+        {% if tb %}
+            <!-- Then put toasts within -->
+            <div style="position: fixed; bottom: 1rem; right: 1rem; z-index: 1050;">
+               <div class="toast" role="alert" aria-live="assertive" ariaatomic="true">
+                   <div class="toast-header" style="background-color: orange;color: red;">
+                      <strong class="me-auto">Thông báo</strong>
+                      <button type="button" class="btn-close" data-bs-dismiss="toast"
+                         aria-label="Close"></button>
+                  </div>
+                  <div class="toast-body" style="background-color: forestgreen;color: bisque;">
+                     {{tb[0]}}
+                  </div>
+               </div>
+            </div>
+       {% endif %}
+    {% endwith %}
+<p>Người nhận: {{ order.shipping_name }}</p>
+<p>Số điện thoại: {{ order.shipping_phone }}</p>
+<p>Địa chỉ: {{ order.shipping_address }}</p>
+<p>Trạng thái: <strong>{{ order.status }}</strong></p>
+<p>Thời gian tạo: {{ order.created_at.strftime("%d-%m-%Y %H:%M:%S") }}</p>
+
+{% if order.updated_by %}
+<p>Cập nhật lần cuối bởi: {{ order.updated_by }} vào {{ order.updated_at.strftime("%d-%m-%Y %H:%M:%S") }}</p>
+{% endif %}
+
+<h4>Sản phẩm:</h4>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Tên SP</th>
+            <th>Số lượng</th>
+            <th>Giá</th>
+            <th>Tổng</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in order.order_details %}
+        <tr>
+            <td>{{ item.product_name }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>{{ "{:,.0f}".format(item.price) }}₫</td>
+            <td>{{ "{:,.0f}".format(item.total) }}₫</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<hr>
+<h4>Cập nhật trạng thái đơn hàng</h4>
+<form method="POST">
+    <div class="mb-3">
+        <label for="status" class="form-label">Trạng thái</label>
+        <select class="form-select" name="status" id="status">
+            {% for st in ['Chờ xác nhận', 'Đã thanh toán', 'Đang giao', 'Đã giao', 'Hủy hàng', 'Hoàn tiền'] %}
+            <option value="{{ st }}" {% if order.status == st %}selected{% endif %}>{{ st }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label for="note" class="form-label">Ghi chú</label>
+        <textarea class="form-control" name="note" rows="3">{{ order.note or '' }}</textarea>
+    </div>
+
+    <button type="submit" class="btn btn-success">Cập nhật đơn hàng</button>
+
+    <a href="{{ url_for('quan-sot.oder.admin_orders') }}" class="btn btn-danger ">Hủy bỏ</a>
+</form>
+
+{% endblock %}

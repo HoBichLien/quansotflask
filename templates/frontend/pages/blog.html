@@ -1,0 +1,295 @@
+{% extends('frontend/layout.html')%}
+{% block content %}
+
+
+<section class="site-banner">
+  <style>
+   .site-banner {
+        color: red;
+        background-image: url("{{ url_for('static', filename='frontend/images/b4.jpg') }}");
+
+      }
+  </style>
+  <div class="container">
+    <div class="row">
+        <h1 style="color: blue;" >Blog</h1>
+          <span >
+            <a href="{{url_for('trang-chu.index')}}">Home /</a>
+          </span>
+          <span class="item">Blog</span>
+    </div>
+  </div>
+</section>
+
+<section id="latest-blog" class="post-grid padding-large">
+  <div class="container">
+    <div class="row d-flex flex-wrap">
+      <style>
+        .post-item {
+          display: flex;
+          flex-direction: column;
+          background: #fff;
+          border-radius: 8px;
+          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+          overflow: hidden;
+          transition: transform 0.3s ease-in-out;
+        }
+
+        .post-item:hover {
+          transform: scale(1.02);
+        }
+
+        /* Ảnh bài viết */
+        .image-holder {
+          width: 100%;
+          height: 200px;
+          /* Định chiều cao cố định */
+          overflow: hidden;
+          position: relative;
+        }
+
+        .image-holder img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          /* Đảm bảo ảnh không bị méo */
+          border-top-left-radius: 8px;
+          border-top-right-radius: 8px;
+        }
+
+        /* Nội dung bài viết */
+        .post-content {
+          display: flex;
+          flex-direction: row;
+          padding: 15px;
+          gap: 15px;
+        }
+
+        /* Ngày tháng */
+        .meta-date {
+          text-align: center;
+          min-width: 60px;
+          background: #f8f9fa;
+          padding: 10px;
+          border-radius: 5px;
+        }
+
+        .meta-day {
+          font-size: 20px;
+          font-weight: bold;
+        }
+
+        .meta-month {
+          font-size: 14px;
+          color: #6c757d;
+        }
+
+        /* Tiêu đề và mô tả */
+        .post-header {
+          flex: 1;
+        }
+
+        .post-title {
+          font-size: 18px;
+          font-weight: bold;
+          margin-bottom: 5px;
+        }
+
+        .post-title a {
+          text-decoration: none;
+          color: #333;
+        }
+
+        .blog-categories {
+          font-size: 14px;
+          color: #007bff;
+        }
+      </style>
+      {% for blog in list %}
+      <article class="col-md-4 post-item">
+        <div class="image-holder zoom-effect">
+          <a href="{{url_for('trang-chu.sanpham')}}">
+            <img src="{{url_for('static',filename='upload/'+ blog.image)}}" alt="post" class="post-image">
+          </a>
+        </div>
+        <div class="post-content d-flex">
+          <div class="meta-date">
+            <div class="meta-day text-primary">{{ blog.create_at.strftime('%d') }}</div>
+            <div class="meta-month">{{ blog.create_at.strftime('%b-%Y') }}</div>
+          </div>
+          <div class="post-header">
+            <h3 class="post-title">
+              <a href="{{url_for('trang-chu.sanpham')}}">{{blog.name}}</a>
+            </h3>
+            <a href="{{url_for('trang-chu.sanpham')}}" class="blog-categories">{{blog.designer}}</a>
+          </div>
+        </div>
+      </article>
+      {% endfor%}
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Đảm bảo container không bị vỡ */
+  .product-store {
+    max-width: 100%;
+    overflow: hidden;
+  }
+
+  /* Giữ kích thước hình ảnh ổn định */
+  .image-holder {
+    width: 100%;
+    height: 250px;
+    /* Chiều cao cố định */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .image-holder img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* Hình ảnh sẽ luôn lấp đầy khu vực mà không bị méo */
+    border-radius: 8px;
+  }
+
+  /* Đảm bảo nội dung không bị tràn */
+  .product-item {
+    flex: 1 1 30%;
+    /* Đảm bảo các item co dãn linh hoạt */
+    max-width: 30%;
+    padding: 10px;
+    box-sizing: border-box;
+  }
+
+  .product-detail h3 {
+    font-size: 16px;
+    text-align: center;
+    white-space: nowrap;
+    /* Không cho chữ xuống dòng */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /* Cắt chữ nếu quá dài */
+  }
+
+  /* Cố định chiều cao cho giá sản phẩm */
+  .item-price {
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* Hiệu ứng cho nút */
+  .cart-button button {
+    transition: 0.3s ease-in-out;
+  }
+
+  .cart-button button:hover {
+    transform: scale(1.05);
+  }
+
+  /* Đảm bảo các nút nằm gọn trong sản phẩm */
+  .cart-concern {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+</style>
+<section id="flash-sales" class="product-store padding-large">
+
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">Flash sales - Deals chớp nhoáng</h2>
+    </div>
+    <div class="swiper product-swiper flash-sales overflow-hidden">
+      {% for all in list_8 %}
+      <div class="product-item col-lg-3 col-md-6 col-sm-6">
+        <div class="image-holder">
+          <a href="{{url_for('trang-chu.detail',name=all.name |slug,id=all.id)}}">
+            <img src="{{url_for('static',filename='upload/'+ all.image)}}" alt="{{all.name}}" class="product-image">
+          </a>
+        </div>
+        <div class="cart-concern">
+          <div class="cart-button d-flex justify-content-between align-items-center">
+            <button type="button" data-product-id="{{all.id}}" class="themgiohang btn-wrap cart-link d-flex align-items-center">Thêm giỏ hàng <i
+                class="icon icon-arrow-io"></i>
+            </button>
+            <button type="button" class="view-btn tooltip d-flex">
+              <a href="{{url_for('trang-chu.sanpham')}}">
+                <i class="icon icon-screen-full"></i>
+                <span class="tooltip-text">Xem thêm</span>
+              </a>
+            </button>
+            <button type="button" class="wishlist-btn">
+              <i class="icon icon-heart"></i>
+            </button>
+          </div>
+        </div>
+        <div class="discount " style="color: red; font-weight: bold;">10% Off</div>
+        <div class="product-detail">
+          <h3 class="product-title">
+            <a href="{{url_for('trang-chu.detail',name=all.name |slug,id=all.id)}}">{{all.name}}</a>
+          </h3>
+          <div class="item-price text-primary">
+            <del class="prev-price" style="color: blue; font-weight: bold;">{{"{:,.0f}".format(all.price+45000)}}/vnd</del>
+            <p style="color: red; font-weight: bold;">{{"{:,.0f}".format(all.price)}}/vnd
+            <p>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+
+      <div class="swiper-pagination"></div>
+
+    </div>
+  </div>
+</section>
+
+<section id="shipping-information">
+  <hr>
+  <div class="container">
+    <div class="row d-flex flex-wrap align-items-center justify-content-between">
+      <div class="col-md-3 col-sm-6">
+        <div class="icon-box">
+          <i class="icon icon-truck" style="color: blue;"></i>
+          <h4 class="block-title" style="color: rgb(238, 100, 14);">
+            <strong style="color: rgb(14, 238, 40);">Miễn phí toàn quốc</strong> trên 99.000 vnd
+          </h4>
+        </div>
+      </div>
+      <div class="col-md-3 col-sm-6">
+        <div class="icon-box">
+          <i class="icon icon-return" style="color: blue;"></i>
+          <h4 class="block-title" style="color: rgb(238, 100, 14);">
+            <strong style="color: rgb(14, 238, 40);">Hoàn tiền</strong> trong vòng 7 ngày
+          </h4>
+        </div>
+      </div>
+      <div class="col-md-3 col-sm-6">
+        <div class="icon-box">
+          <i class="icon icon-tags1" style="color: blue;"></i>
+          <h4 class="block-title" style="color: rgb(238, 100, 14);">
+            <strong style="color: rgb(14, 238, 40);">Mua càng nhiều giảm càng sâu</strong> 50% off
+          </h4>
+        </div>
+      </div>
+      <div class="col-md-3 col-sm-6">
+        <div class="icon-box">
+          <i class="icon icon-help_outline" style="color: blue;"></i>
+          <h4 class="block-title" style="color: rgb(238, 100, 14);">
+            <strong style="color: rgb(14, 238, 40);">Bất cứ vấn đề gì?</strong> chúng tôi luôn sẵn sàng hỗ trợ.
+          </h4>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr>
+</section>
+
+{% endblock %}

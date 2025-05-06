@@ -1,0 +1,164 @@
+{% extends('frontend/layout.html')%}
+{% block content %}
+
+
+<section class="site-banner">
+  <style>
+   .site-banner {
+        color: red;
+        background-image: url("{{ url_for('static', filename='frontend/images/b4.jpg') }}");
+
+      }
+  </style>
+  <div class="container">
+    <div class="row">
+        <h1 style="color: blue;" >About Us</h1>
+          <span >
+            <a href="{{url_for('trang-chu.index')}}">Home /</a>
+          </span>
+          <span class="item">About Us</span>
+    </div>
+  </div>
+</section>
+
+
+  <section id="shipping-information" class="padding-large">
+    <div class="container">
+      <div class="row d-flex flex-wrap align-items-center justify-content-between">
+        <div class="col-md-3 col-sm-6">
+          <div class="icon-box">
+            <i class="icon icon-truck" style="color: blue;"></i>
+            <h4 class="block-title" style="color: rgb(238, 100, 14);">
+              <strong style="color: rgb(14, 238, 40);">Miễn phí toàn quốc</strong>  trên 99.000 vnd
+            </h4>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+          <div class="icon-box">
+            <i class="icon icon-return" style="color: blue;"></i>
+            <h4 class="block-title" style="color: rgb(238, 100, 14);">
+              <strong style="color: rgb(14, 238, 40);">Hoàn tiền</strong> trong vòng 7 ngày
+            </h4>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+          <div class="icon-box">
+            <i class="icon icon-tags1" style="color: blue;"></i>
+            <h4 class="block-title" style="color: rgb(238, 100, 14);">
+              <strong style="color: rgb(14, 238, 40);">Mua càng nhiều giảm càng sâu</strong> 50% off
+            </h4>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+          <div class="icon-box">
+            <i class="icon icon-help_outline" style="color: blue;"></i>
+            <h4 class="block-title" style="color: rgb(238, 100, 14);">
+              <strong style="color: rgb(14, 238, 40);">Bất cứ vấn đề gì?</strong> chúng tôi luôn sẵn sàng hỗ trợ.
+            </h4>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="about-us">
+    <div class="container ">
+      {% for ab in ab %}
+      <div class="row d-flex align-items-center">
+        <div class="col-lg-3 col-md-12">
+          <div class="image-holder">
+            <img src="{{url_for('static',filename='upload/'+ ab.image)}}" alt="single" class="about-image">
+          </div>
+        </div>
+        <div class="col-lg-9 col-md-12">
+          <div class="detail">
+            <div class="display-header">
+              <h2 class="section-title" style="color: blue;">{{ab.title}}</h2>
+              <p>{{ ab.desc | highlight_text | safe }}</p>
+
+              <div class="btn-wrap">
+                <a href="{{url_for('trang-chu.sanpham')}}" class="btn btn-info btn-medium d-flex align-items-center" tabindex="0" style="background-color: rgb(68, 240, 209);color: red;">Sản phẩm<i class="icon icon-arrow-io"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+
+  <section id="testimonials" class="padding-large">
+    <div class="container">
+      <div class="reviews-content">
+        <div class="row d-flex flex-wrap">
+          <div class="col-md-2">
+            <div class="review-icon" >
+              <i class="icon icon-right-quote" style="color: chartreuse;"></i>
+            </div>
+          </div>
+          <div class="col-md-8">
+            <div class="swiper testimonial-swiper overflow-hidden">
+              <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                  <div class="testimonial-detail">
+                    <p style="color: blue;">“<em style="  color: rgb(227, 11, 11);font-weight: bold;">LIEN NAM</em> - Chất lượng tạo niềm tin, uy tín xây thành công. Chúng tôi cam kết mang đến sản phẩm quần sọt thời trang tốt nhất,
+                       với chất liệu được chọn lọc kỹ lưỡng, đảm bảo sự thoải mái và bền đẹp. Mỗi sản phẩm không chỉ là trang phục,
+                        mà còn là sự tận tâm và trách nhiệm của chúng tôi đối với khách hàng.
+                       Chính sự hài lòng của bạn là động lực để <em style="  color: rgb(227, 11, 11);font-weight: bold;">LIEN NAM</em> không ngừng phát triển.”</p>
+                    <div class="author-detail">
+                      <div class="name"><em style="  color: rgb(227, 11, 11);">LIEN NAM</em></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="swiper-slide">
+                  <div class="testimonial-detail">
+                    <p style="color: blue;">“<em style="  color: rgb(227, 11, 11);font-weight: bold;">LIEN NAM</em> - Khách hàng là trọng tâm, chất lượng là cam kết. Chúng tôi không chỉ bán sản phẩm, mà còn mang đến sự hài lòng và niềm tin.
+                       Mỗi chiếc quần sọt đều được chăm chút từ chất liệu đến từng đường may, đảm bảo sự thoải mái và phong cách cho người mặc.
+                       Chúng tôi tin rằng sự trung thực và tận tâm chính là nền tảng để xây dựng mối quan hệ bền vững với khách hàng.”</p>
+                    <div class="author-detail">
+                      <div class="name"><em style="  color: rgb(227, 11, 11);">LIEN NAM</em></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="swiper-arrows">
+              <button class="prev-button">
+                <i class="icon icon-arrow-left"></i>
+              </button>
+              <button class="next-button">
+                <i class="icon icon-arrow-right"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr>
+  <section class="shoppify-section-banner">
+    <div class="container">
+      <div class="product-collection">
+        <div class="left-content collection-item">
+          <div class="products-thumb">
+            <img src="{{url_for('static',filename='frontend/images/b5.jpg')}}" alt="collection item"
+              class="large-image image-rounded">
+          </div>
+          <div class="col-lg-6 col-md-6 col-sm-6 product-entry">
+            <div class="categories"  style="color: rgb(7, 156, 49);font-weight: bold;text-align: center;"> BST LIEN NAM collection</div>
+            <h3 class="item-title" style="color: rgb(42, 20, 241);text-align: center;">Lựa chọn thường ngày</h3>
+            <p style="color: rgb(226, 4, 4);font-weight: bold;background-color: greenyellow;">"Lựa chọn mới hoàn hảo mỗi ngày với bộ sưu tập quần sọt <em style="  color: rgb(97, 11, 227);">LIEN NAM</em>  thoải mái, phong cách hợp thời trang, phù hợp mọi hoạt động!"</p>
+            <div class="btn-wrap" style="text-align: center;">
+              <a href="{{url_for('trang-chu.sanpham')}}" class="d-flex align-items-center" style="background-color: rgb(68, 240, 209);color: red;">Sản phẩm yêu thích <i class="icon icon-arrow-io"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+
+{% endblock %}

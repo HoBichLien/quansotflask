@@ -1,0 +1,420 @@
+{% extends ('frontend/layout.html') %}
+
+{% block content %}
+
+
+<section class="site-banner " >
+    <style>
+        .site-banner {
+          color: red;
+          background-image: url("{{ url_for('static', filename='frontend/images/b5.png') }}");
+
+        }
+      </style>
+    <div class="container">
+      <div class="row">
+          <h1 style="color: blue;" >Shop page</h1>
+            <span >
+              <a href="{{url_for('trang-chu.sanpham')}}">Home /</a>
+            </span>
+            <span class="item">Shop</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="shopify-grid padding-large">
+    <div class="container">
+      <div class="row">
+        <aside class="col-md-3">
+          <div class="sidebar">
+            <div class="widgets widget-menu">
+              <div class="widget-search-bar">
+                <form role="search" method="get" action="{{ url_for('trang-chu.search_product') }}" class="d-flex">
+                  <input class="search-field" name="q" placeholder="Tìm sản phẩm..." type="text">
+                  <button class="btn btn-dark"><i class="icon icon-search"></i></button>
+                </form>
+              </div> 
+            </div>
+            <div class="widgets widget-product-tags">
+              <h5 class="widget-title">CHẤT LIỆU SẢN PHẨM</h5>
+              <ul class=" tabs list-unstyled">
+                <li data-tab-target="#shoes" class="active tab ">
+                  Jean
+                </li>
+                <li data-tab-target="#kaki" class="tab">Kaki
+                </li>
+                <li data-tab-target="#pants" class="tab">Thun</li>
+                <li data-tab-target="#hoodie" class="tab">Cotton</li>
+                <li data-tab-target="#outer" class="tab">Nỉ</li>
+                <li data-tab-target="#jackets" class="tab">Vải dù</li>
+                <li data-tab-target="#accessories" class="tab">Linen</li>
+              </ul>
+            </div>
+            <div class="widgets widget-price-filter">
+              <h5 class="widget-title">Lọc theo giá </h5>
+              <ul class="product-tags sidebar-list list-unstyled">
+                <li class="tags-item">
+                  <a href="{{ url_for('trang-chu.filter_by_price', price_range='0-10000') }}">Thấp hơn 10.000 vnd</a>
+                </li>
+                <li class="tags-item">
+                  <a href="{{ url_for('trang-chu.filter_by_price', price_range='10000-40000') }}">10.000 vnd - 40.000 vnd</a>
+                </li>
+                <li class="tags-item">
+                  <a href="{{ url_for('trang-chu.filter_by_price', price_range='40000-100000') }}">40.000 vnd - 100.000 vnd</a>
+                </li>
+                <li class="tags-item">
+                  <a href="{{ url_for('trang-chu.filter_by_price', price_range='100000-200000') }}">100.000 vnd - 200.000 vnd</a>
+                </li>
+                <li class="tags-item">
+                  <a href="{{ url_for('trang-chu.filter_by_price', price_range='200000-plus') }}">Trên 200.000 vnd</a>
+                </li>
+              </ul>
+            </div>
+         
+          </div>
+        </aside>
+        <section id="selling-products" class="product-store bg-light-grey padding-large">
+          <div class="container">
+            <div class="section-header">
+              <h2 class="section-title">Best sell của shop </h2>
+            </div>
+            <ul class="tabs list-unstyled">
+              <li data-tab-target="#all" class="active tab" style="color: red; font-weight: bold;font-size: 20px;">LUÔN CÓ SẢN PHẨM MỚI CHO KHÁCH YÊU </li>
+              
+            </ul>
+            <div class="tab-content">
+              <div id="all" data-tab-content class="active">
+                <div class="row d-flex flex-wrap">
+                  {% for all in list_all %}
+                  <div class="product-item col-lg-3 col-md-6 col-sm-6">
+                    <div class="image-holder">
+                      <a href="{{url_for('trang-chu.detail',name=all.name |slug,id=all.id)}}">
+                        <img src="{{url_for('static',filename='upload/'+ all.image)}}" alt="{{all.name}}" class="product-image">
+                      </a>
+                    </div>
+                    <div class="cart-concern">
+                      <div class="cart-button d-flex justify-content-between align-items-center">
+                        <button type="button" data-product-id="{{all.id}}" class="themgiohang btn-wrap cart-link d-flex align-items-center">
+                          Thêm giỏ hàng <i class="icon icon-arrow-io"></i>
+                        </button>
+                        <button type="button" class="view-btn tooltip d-flex">
+                          <a href="{{url_for('trang-chu.sanpham')}}">
+                            <i class="icon icon-screen-full"></i>
+                            <span class="tooltip-text">Xem thêm</span>
+                          </a>
+                        </button>
+                        <button type="button" class="wishlist-btn">
+                          <i class="icon icon-heart"></i>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="product-detail">
+                      <h3 class="product-title">
+                        <a href="{{url_for('trang-chu.detail',name=all.name |slug,id=all.id)}}">{{all.name}}</a>
+                      </h3>
+                      <div class="item-price text-primary">{{"{:,.0f}".format(all.price)}}/vnd</div>
+                    </div>
+                  </div>
+                  {% endfor %}
+                </div>
+              </div>
+              <div id="shoes" data-tab-content>
+                <div class="row d-flex flex-wrap">
+                  {% for all in list_1 %}
+                  <div class="product-item col-lg-3 col-md-6 col-sm-6">
+                    <div class="image-holder">
+                      <a href="{{url_for('trang-chu.detail',name=all.name |slug,id=all.id)}}">
+                        <img src="{{url_for('static',filename='upload/'+ all.image)}}" alt="{{all.name}}" class="product-image">
+                      </a>
+                    </div>
+                    <div class="cart-concern">
+                      <div class="cart-button d-flex justify-content-between align-items-center">
+                        <button type="button" data-product-id="{{all.id}}" class="themgiohang btn-wrap cart-link d-flex align-items-center">Thêm giỏ hàng <i
+                            class="icon icon-arrow-io"></i>
+                        </button>
+                        <button type="button" class="view-btn tooltip d-flex">
+                          <a href="{{url_for('trang-chu.sanpham')}}">
+                            <i class="icon icon-screen-full"></i>
+                            <span class="tooltip-text">Xem thêm</span>
+                          </a>
+                        </button>
+                        <button type="button" class="wishlist-btn">
+                          <i class="icon icon-heart"></i>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="product-detail">
+                      <h3 class="product-title">
+                        <a href="{{url_for('trang-chu.detail',name=all.name |slug,id=all.id)}}">{{all.name}}</a>
+                      </h3>
+                      <div class="item-price text-primary">{{"{:,.0f}".format(all.price)}}/vnd</div>
+                    </div>
+                  </div>
+                  {% endfor %}
+                </div>
+              </div>
+              <div id="kaki" data-tab-content>
+                <div class="row d-flex flex-wrap">
+                  {% for all in list_2 %}
+                  <div class="product-item col-lg-3 col-md-6 col-sm-6">
+                    <div class="image-holder">
+                      <a href="{{url_for('trang-chu.detail',name=all.name |slug,id=all.id)}}">
+                        <img src="{{url_for('static',filename='upload/'+ all.image)}}" alt="{{all.name}}" class="product-image">
+                      </a>
+                    </div>
+                    <div class="cart-concern">
+                      <div class="cart-button d-flex justify-content-between align-items-center">
+                        <button type="button" data-product-id="{{all.id}}" class="themgiohang btn-wrap cart-link d-flex align-items-center">Thêm giỏ hàng <i
+                            class="icon icon-arrow-io"></i>
+                        </button>
+                        <button type="button" class="view-btn tooltip d-flex">
+                          <a href="{{url_for('trang-chu.sanpham')}}">
+                            <i class="icon icon-screen-full"></i>
+                            <span class="tooltip-text">Xem thêm</span>
+                          </a>
+                        </button>
+                        <button type="button" class="wishlist-btn">
+                          <i class="icon icon-heart"></i>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="product-detail">
+                      <h3 class="product-title">
+                        <a href="{{url_for('trang-chu.detail',name=all.name |slug,id=all.id)}}">{{all.name}}</a>
+                      </h3>
+                      <div class="item-price text-primary">{{"{:,.0f}".format(all.price)}}/vnd</div>
+                    </div>
+                  </div>
+                  {% endfor %}
+                </div>
+              </div>
+              <div id="pants" data-tab-content>
+                <div class="row d-flex flex-wrap">
+                  {% for all in list_3 %}
+                  <div class="product-item col-lg-3 col-md-6 col-sm-6">
+                    <div class="image-holder">
+                      <a href="{{url_for('trang-chu.detail',name=all.name |slug,id=all.id)}}">
+                        <img src="{{url_for('static',filename='upload/'+ all.image)}}" alt="{{all.name}}" class="product-image">
+                      </a>
+                    </div>
+                    <div class="cart-concern">
+                      <div class="cart-button d-flex justify-content-between align-items-center">
+                        <button type="button" data-product-id="{{all.id}}" class="themgiohang btn-wrap cart-link d-flex align-items-center">Thêm giỏ hàng <i
+                            class="icon icon-arrow-io"></i>
+                        </button>
+                        <button type="button" class="view-btn tooltip d-flex">
+                          <a href="{{url_for('trang-chu.sanpham')}}">
+                            <i class="icon icon-screen-full"></i>
+                            <span class="tooltip-text">Xem thêm</span>
+                          </a>
+                        </button>
+                        <button type="button" class="wishlist-btn">
+                          <i class="icon icon-heart"></i>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="product-detail">
+                      <h3 class="product-title">
+                        <a href="{{url_for('trang-chu.detail',name=all.name |slug,id=all.id)}}">{{all.name}}</a>
+                      </h3>
+                      <div class="item-price text-primary">{{"{:,.0f}".format(all.price)}}/vnd</div>
+                    </div>
+                  </div>
+                  {% endfor %}
+                </div>
+              </div>
+              <div id="hoodie" data-tab-content>
+                <div class="row d-flex flex-wrap">
+                  {% for all in list_4 %}
+                  <div class="product-item col-lg-3 col-md-6 col-sm-6">
+                    <div class="image-holder">
+                      <a href="{{url_for('trang-chu.detail',name=all.name |slug,id=all.id)}}">
+                        <img src="{{url_for('static',filename='upload/'+ all.image)}}" alt="{{all.name}}" class="product-image">
+                      </a>
+                    </div>
+                    <div class="cart-concern">
+                      <div class="cart-button d-flex justify-content-between align-items-center">
+                        <button type="button" data-product-id="{{all.id}}" class="themgiohang btn-wrap cart-link d-flex align-items-center">Thêm giỏ hàng <i
+                            class="icon icon-arrow-io"></i>
+                        </button>
+                        <button type="button" class="view-btn tooltip d-flex">
+                          <a href="{{url_for('trang-chu.sanpham')}}">
+                            <i class="icon icon-screen-full"></i>
+                            <span class="tooltip-text">Xem thêm</span>
+                          </a>
+                        </button>
+                        <button type="button" class="wishlist-btn">
+                          <i class="icon icon-heart"></i>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="product-detail">
+                      <h3 class="product-title">
+                        <a href="{{url_for('trang-chu.detail',name=all.name |slug,id=all.id)}}">{{all.name}}</a>
+                      </h3>
+                      <div class="item-price text-primary">{{"{:,.0f}".format(all.price)}}/vnd</div>
+                    </div>
+                  </div>
+                  {% endfor %}
+                </div>
+              </div>
+              <div id="outer" data-tab-content>
+                <div class="row d-flex flex-wrap">
+                  {% for all in list_5 %}
+                  <div class="product-item col-lg-3 col-md-6 col-sm-6">
+                    <div class="image-holder">
+                      <a href="{{url_for('trang-chu.detail',name=all.name |slug,id=all.id)}}">
+                        <img src="{{url_for('static',filename='upload/'+ all.image)}}" alt="{{all.name}}" class="product-image">
+                      </a>
+                    </div>
+                    <div class="cart-concern">
+                      <div class="cart-button d-flex justify-content-between align-items-center">
+                        <button type="button" data-product-id="{{all.id}}" class="themgiohang btn-wrap cart-link d-flex align-items-center">Thêm giỏ hàng <i
+                            class="icon icon-arrow-io"></i>
+                        </button>
+                        <button type="button" class="view-btn tooltip d-flex">
+                          <a href="{{url_for('trang-chu.sanpham')}}">
+                            <i class="icon icon-screen-full"></i>
+                            <span class="tooltip-text">Xem thêm</span>
+                          </a>
+                        </button>
+                        <button type="button" class="wishlist-btn">
+                          <i class="icon icon-heart"></i>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="product-detail">
+                      <h3 class="product-title">
+                        <a href="{{url_for('trang-chu.detail',name=all.name |slug,id=all.id)}}">{{all.name}}</a>
+                      </h3>
+                      <div class="item-price text-primary">{{"{:,.0f}".format(all.price)}}/vnd</div>
+                    </div>
+                  </div>
+                  {% endfor %}
+                </div>
+              </div>
+              <div id="jackets" data-tab-content>
+                <div class="row d-flex flex-wrap">
+                  {% for all in list_6 %}
+                  <div class="product-item col-lg-3 col-md-6 col-sm-6">
+                    <div class="image-holder">
+                      <a href="{{url_for('trang-chu.detail',name=all.name |slug,id=all.id)}}">
+                        <img src="{{url_for('static',filename='upload/'+ all.image)}}" alt="{{all.name}}" class="product-image">
+                      </a>
+                    </div>
+                    <div class="cart-concern">
+                      <div class="cart-button d-flex justify-content-between align-items-center">
+                        <button type="button" data-product-id="{{all.id}}" class="themgiohang btn-wrap cart-link d-flex align-items-center">Thêm giỏ hàng <i
+                            class="icon icon-arrow-io"></i>
+                        </button>
+                        <button type="button" class="view-btn tooltip d-flex">
+                          <a href="{{url_for('trang-chu.sanpham')}}">
+                            <i class="icon icon-screen-full"></i>
+                            <span class="tooltip-text">Xem thêm</span>
+                          </a>
+                        </button>
+                        <button type="button" class="wishlist-btn">
+                          <i class="icon icon-heart"></i>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="product-detail">
+                      <h3 class="product-title">
+                        <a href="{{url_for('trang-chu.detail',name=all.name |slug,id=all.id)}}">{{all.name}}</a>
+                      </h3>
+                      <div class="item-price text-primary">{{"{:,.0f}".format(all.price)}}/vnd</div>
+                    </div>
+                  </div>
+                  {% endfor %}
+                </div>
+              </div>
+              <div id="accessories" data-tab-content>
+                <div class="row d-flex flex-wrap">
+                  {% for all in list_7 %}
+                  <div class="product-item col-lg-3 col-md-6 col-sm-6">
+                    <div class="image-holder">
+                      <a href="{{url_for('trang-chu.detail',name=all.name |slug,id=all.id)}}">
+                        <img src="{{url_for('static',filename='upload/'+ all.image)}}" alt="{{all.name}}" class="product-image">
+                      </a>
+                    </div>
+                    <div class="cart-concern">
+                      <div class="cart-button d-flex justify-content-between align-items-center">
+                        <button type="button" data-product-id="{{all.id}}" class="themgiohang btn-wrap cart-link d-flex align-items-center">Them giỏ hàng <i
+                            class="icon icon-arrow-io"></i>
+                        </button>
+                        <button type="button" class="view-btn tooltip d-flex">
+                          <a href="{{url_for('trang-chu.sanpham')}}">
+                            <i class="icon icon-screen-full"></i>
+                            <span class="tooltip-text">Xem thêm</span>
+                          </a>
+                        </button>
+                        <button type="button" class="wishlist-btn">
+                          <i class="icon icon-heart"></i>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="product-detail">
+                      <h3 class="product-title">
+                        <a href="{{url_for('trang-chu.detail',name=all.name |slug,id=all.id)}}">{{all.name}}</a>
+                      </h3>
+                      <div class="item-price text-primary">{{"{:,.0f}".format(all.price)}}/vnd</div>
+                    </div>
+                  </div>
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>        
+    </div>      
+  </div>
+
+
+  <section id="shipping-information">
+    <hr>
+    <div class="container">
+      <div class="row d-flex flex-wrap align-items-center justify-content-between">
+        <div class="col-md-3 col-sm-6">
+          <div class="icon-box">
+            <i class="icon icon-truck" style="color: blue;"></i>
+            <h4 class="block-title" style="color: rgb(238, 100, 14);">
+              <strong style="color: rgb(14, 238, 40);">Miễn phí toàn quốc</strong>  trên 99.000 vnd
+            </h4>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+          <div class="icon-box">
+            <i class="icon icon-return" style="color: blue;"></i>
+            <h4 class="block-title" style="color: rgb(238, 100, 14);">
+              <strong style="color: rgb(14, 238, 40);">Hoàn tiền</strong> trong vòng 7 ngày
+            </h4>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+          <div class="icon-box">
+            <i class="icon icon-tags1" style="color: blue;"></i>
+            <h4 class="block-title" style="color: rgb(238, 100, 14);">
+              <strong style="color: rgb(14, 238, 40);">Mua càng nhiều giảm càng sâu</strong> 50% off
+            </h4>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+          <div class="icon-box">
+            <i class="icon icon-help_outline" style="color: blue;"></i>
+            <h4 class="block-title" style="color: rgb(238, 100, 14);">
+              <strong style="color: rgb(14, 238, 40);">Bất cứ vấn đề gì?</strong> chúng tôi luôn sẵn sàng hỗ trợ.
+            </h4>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr>
+  </section>
+
+
+<script>
+
+</script>
+
+{% endblock %}

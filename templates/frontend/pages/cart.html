@@ -1,0 +1,299 @@
+{% extends ('frontend/layout.html')%}
+{% block content %}
+
+<section class="site-banner " >
+    <style>
+        .site-banner {
+          color: red;
+          background-image: url("{{ url_for('static', filename='frontend/images/b1.jpg') }}");
+  
+        }
+      </style>
+    <div class="container">
+      <div class="row">
+          <h1 style="color: blue;" >Giỏ hàng</h1>
+            <span >
+              <a href="{{url_for('trang-chu.index')}}">Home /</a>
+            </span>
+            <span class="item">Thanh toán</span>
+      </div>
+    </div>
+  </section>
+
+<style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #fff;
+      color: #333;
+    }
+
+    .container-cart {
+      max-width: 1200px;
+      margin: 50px auto;
+      padding: 0 20px;
+    }
+
+    .cart-content {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 40px;
+    }
+
+    .cart-left {
+      flex: 1 1 65%;
+    }
+
+    .cart-right {
+      flex: 1 1 25%;
+      border: 1px solid #eee;
+      padding: 25px;
+      border-radius: 10px;
+      background-color: #fafafa;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    table thead th {
+      text-align: left;
+      padding: 10px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    table tbody td {
+      padding: 15px 10px;
+      border-bottom: 1px solid #f0f0f0;
+      vertical-align: middle;
+    }
+
+    table img {
+      width: 60px;
+      height: auto;
+    }
+
+    .cart-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .cart-actions input {
+      flex: 1;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 30px;
+    }
+
+    .cart-actions button {
+      padding: 12px 25px;
+      border: none;
+      background-color: #ef5454;
+      border-radius: 30px;
+      cursor: pointer;
+      font-weight: bold;
+      color: #fff;
+    }
+
+    .cart-actions button:hover {
+      background-color: #7460fa;
+      color: white;
+    }
+
+    .cart-right h4 {
+      font-size: 20px;
+      margin-bottom: 15px;
+    }
+
+    .subtotal {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .cart-right input,
+    .cart-right select {
+      width: 100%;
+      padding: 10px 15px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .cart-right button {
+      width: 100%;
+      padding: 12px;
+      background-color: #0cca06;
+      color: white;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      font-weight: bold;
+      text-transform: uppercase;text-align: center;
+    }
+
+    .cart-right button:hover {
+      background-color: #69b2f2;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container-cart">
+  <div class="cart-content">
+    <!-- LEFT SIDE -->
+    <div class="cart-left">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Hình</th>
+            <th>Tên</th>
+            <th>Giá</th>
+            <th>Số lượng</th>
+            <th>Tổng</th>
+            <th>Xóa</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for id, item in session.get('cart', {}).items() %}
+          <tr>
+            <td><div class="d-flex align-items-center">
+              <img src="{{url_for('static',filename='upload/'+ item.image)}}" class="img-fluid me-5 rounded-circle"
+                  style="width: 80px; height: 80px;" alt="">
+          </div></td>
+            <td>{{item.name}}</td>
+            
+            <td>{{ "{:,.0f}".format(item.price) }}đ</td>
+            <td>
+              <button class="btn-minus" data-product-id="{{ id }}" style="background-color: white;color: red;">
+                <i class="fas fa-minus-circle"></i>
+              </button>
+              <input type="text" class="soluong-sp" data-product-id="{{ id }}" value="{{ item.quantity }}" min="1" max="100" style="width: 60px;" />
+              <button class="btn-plus" data-product-id="{{ id }}" style="background-color: white;color: red;">
+                <i class="fas fa-plus-circle"></i>
+              </button>
+            </td>
+            <td><span id="total_product_{{ id }}">{{ "{:,.0f}".format(item.price * item.quantity) }}đ</span></td>
+            <td>
+              <button class="xoagiohang" data-product-id="{{ id }}" style="background-color: white;color: red;width: 10px;">
+                   <i class="fas fa-trash"></i>
+            </button></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      
+      <hr/>
+    <!-- RIGHT SIDE -->
+    <div class="cart-right">
+      <h4>TỔNG TIỀN GIỎ HÀNG</h4>
+      <div class="cart-summary">
+    
+        {% set total = namespace(value=0) %}
+        {% for pro_id, product in cart.items() %}
+            {% set total.value = total.value + (product.price * product.quantity) %}
+        {% endfor %}
+    
+        {# Tính phí ship phía server, hoặc tạm tính phía frontend nếu cần #}
+        {% set ship_fee = 0 if total.value >= 100000 else 30000 %}
+        {% set total_with_ship = total.value + ship_fee %}
+    
+        <p>Tạm tính: <span id="cart-total">{{ "{:,.0f}".format(total.value) }}</span>đ</p>
+        <p>Phí vận chuyển: <span id="ship_fee">{{ "{:,.0f}".format(ship_fee) }}</span>đ</p>
+        <p><strong>Tổng cộng: <span id="total_with_ship">{{ "{:,.0f}".format(total_with_ship) }}</span>đ</strong></p>
+        
+        {% if ship_fee == 0 %}
+          <p id="ship_message" style="color: green;">Bạn được miễn phí vận chuyển 🎉</p>
+        {% else %}
+          <p id="ship_message" style="color: red;">Đơn hàng dưới 100.000đ, phí vận chuyển là 30.000đ</p>
+        {% endif %}
+        
+        {% if current_user.is_authenticated %}
+            {% if current_user.address %}
+            <a href="{{url_for('trang-chu.checkout')}}">ĐẶT HÀNG</a>
+            {% else %}
+            <a href="{{url_for('trang-chu.profile')}}" style="color: white; background-color: yellow;text-align: center;font-weight: bold;">CẬP NHẬT THÔNG TIN THANH TOÁN</a>
+            {% endif %}
+        {% else %}
+            <a href="{{url_for('secure.login')}}"> Vui lòng đăng nhập để thanh toán đơn hàng</a>
+        {% endif %}
+        
+      </div>
+    </div>
+    
+  </div>
+</div>
+	
+
+<script>
+  $(document).on('click', '.xoagiohang', function (e) {
+    const productId = $(this).data('product-id');
+    $.ajax({
+      url: '{{url_for("trang-chu.remove_cart")}}',
+      type: 'POST',
+      contentType: 'application/json',
+      data: JSON.stringify({ product_id: productId }),
+      success: function () {
+        location.reload();
+      },
+      error: function () {
+        alert("Lỗi khi xóa sản phẩm trong giỏ hàng");
+      }
+    });
+  });
+
+  document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".btn-minus").forEach(button => {
+      button.addEventListener("click", function () {
+        updateCart(this.dataset.productId, -1);
+      });
+    });
+
+    document.querySelectorAll(".btn-plus").forEach(button => {
+      button.addEventListener("click", function () {
+        updateCart(this.dataset.productId, 1);
+      });
+    });
+
+    document.querySelectorAll(".soluong-sp").forEach(input => {
+      input.addEventListener("change", function () {
+        const soluongmoi = parseInt(this.value);
+        if (soluongmoi > 0 && soluongmoi <= 100) {
+          updateCart(this.dataset.productId, soluongmoi, true);
+        } else {
+          alert("Số lượng phải từ 1 đến 100");
+          location.reload();
+        }
+      });
+    });
+
+    function updateCart(productId, quantity, tunhap = false) {
+      $.ajax({
+        url: '{{url_for("trang-chu.update_cart")}}',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({ id: productId, sl: quantity, nhaptay: tunhap }),
+        success: function (ketqua) {
+          if (ketqua.success) {
+            $(`#quantity_${productId}`).text(ketqua.new_quantity);
+            $(`#total_product_${productId}`).text(ketqua.productTotal.toLocaleString());
+            $("#cart-total").text(ketqua.cart_Total.toLocaleString());
+            $("#ship_fee").text(ketqua.ship_fee.toLocaleString() );
+            $("#total_with_ship").text(ketqua.tongcoship.toLocaleString());
+            $("#ship_message").text(ketqua.ship_message);
+          } else {
+            alert(ketqua.message || "Có lỗi khi cập nhật giỏ hàng");
+          }
+        },
+        error: function () {
+          alert("Lỗi khi cập nhật giỏ hàng");
+        }
+      });
+    }
+  });
+</script>
+
+
+{% endblock %}

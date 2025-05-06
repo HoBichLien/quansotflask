@@ -1,0 +1,222 @@
+{% extends ('frontend/layout.html') %}
+{% block content %}
+
+<section class="site-banner">
+  <style>
+   .site-banner {
+        color: red;
+        background-image: url("{{ url_for('static', filename='frontend/images/b2.jpg') }}");
+
+      }
+  </style>
+  <div class="container">
+    <div class="row">
+        <h1 style="color: blue;" >Chi tiết </h1>
+          <span >
+            <a href="{{url_for('trang-chu.index')}}">Home /</a>
+          </span>
+          <span class="item">Sản phẩm</span>
+    </div>
+  </div>
+</section>
+
+  <div class="main-content d-flex flex-wrap padding-large">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="post-meta">
+            <span class="post-date">{{sp.create_at}}</span> / <a href="{{url_for('trang-chu.blog')}}" class="blog-categories">{{sp.category}}</a>
+          </div>
+          <h1 class="page-title">{{sp.name}}</h1>
+          <div class="feature-image">
+            <img src="{{url_for('static',filename='upload/'+ sp.image)}}" alt="{{sp.name}}" class="jarallax-img">
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="post-content">
+            <p><strong>{{sp.chatlieu}}</strong></p>
+            <p>{{sp.desc | safe}}
+            </p>
+            <ul style="list-style-type:disc;" class="inner-list">
+              <li>Cân nặng:{{sp.cannang}} (kg)</li>
+              <li>Chiều cao: {{sp.chieucao}} (cm)</li>
+              <li>Size:  {{sp.size_type}}</li>
+            </ul>
+            <p>Giá :{{"{:,.0f}".format(sp.price)}}/vnd</p>
+            <div class="post-tags">
+              <div class="block-tag">
+                <ul class="list-unstyled d-flex">
+                  <li>
+                    <a href="{{url_for('trang-chu.sanpham')}}" class="btn btn-dark btn-small btn-rounded">Jean</a>
+                  </li>
+                  <li>
+                    <a href="{{url_for('trang-chu.sanpham')}}" class="btn btn-dark btn-small btn-rounded">Kaki</a>
+                  </li>
+                  <li>
+                    <a href="{{url_for('trang-chu.sanpham')}}" class="btn btn-dark btn-small btn-rounded">Nỉ</a>
+                  </li>
+                  <li>
+                    <a href="{{url_for('trang-chu.sanpham')}}" class="btn btn-dark btn-small btn-rounded">Thun</a>
+                  </li>
+                  <li>
+                    <a href="{{url_for('trang-chu.sanpham')}}" class="btn btn-dark btn-small btn-rounded">Linem</a>
+                  </li>
+                  <li>
+                    <a href="{{url_for('trang-chu.sanpham')}}" class="btn btn-dark btn-small btn-rounded">Cotton</a>
+                  </li>
+                  <li>
+                    <a href="{{url_for('trang-chu.sanpham')}}" class="btn btn-dark btn-small btn-rounded">Vải dù</a>
+                  </li>
+                </ul>
+                <button type="button" data-product-id="{{sp.id}}" class="themgiohang  cart-link d-flex align-items-center btn-rounde" style="background-color: rgb(22, 241, 22);">
+                 Thêm giỏ hàng 
+              </button>
+              </div>
+            </div>
+            <div class="social-links d-flex margin-small">
+              <div class="element-title">Share:</div>
+              <ul class="d-flex list-unstyled">
+                <li>
+                  <a href="#"><i class="icon icon-facebook"></i></a>
+                </li>
+                <li>
+                  <a href="#"><i class="icon icon-twitter"></i></a>
+                </li>
+                <li>
+                  <a href="#"><i class="icon icon-instagram"></i></a>
+                </li>
+                <li>
+                  <a href="#"><i class="icon icon-youtube-play"></i></a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <section >
+    <div class="container">
+      <div class="section-header d-flex flex-wrap align-items-center justify-content-between">
+        <h2 class="section-title">Sản Phẩm Hottrend</h2>
+        <div class="btn-wrap align-right">
+          <a href="{{url_for('trang-chu.sanpham')}}" class="d-flex align-items-center">Lựa chọn nhiều hơn <i class="icon icon icon-arrow-io"></i>
+          </a>
+        </div>
+      </div>
+      <div class="row d-flex flex-wrap">
+        {% for blog in list %}
+        <article class="col-md-4 post-item">
+          <div class="image-holder zoom-effect">
+            <a href="#">
+              <img src="{{url_for('static',filename='upload/'+ blog.image)}}" alt="post" class="post-image">
+            </a>
+          </div>
+          <div class="post-content d-flex">
+            <div class="meta-date">
+              <div class="meta-day text-primary">{{ blog.create_at.strftime('%d') }}</div>
+              <div class="meta-month">{{ blog.create_at.strftime('%b-%Y') }}</div>
+            </div>
+            <div class="post-header">
+              <h3 class="post-title">
+                <a href="{{url_for('trang-chu.sanpham')}}">{{blog.name}}</a>
+              </h3>
+              <a href="{{url_for('trang-chu.sanpham')}}" class="blog-categories">{{blog.designer}}</a>
+            </div>
+          </div>
+        </article>
+        {% endfor%}
+      </div>
+    </div>
+  </section>
+  <section id="flash-sales" class="product-store ">
+
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title" style="color: blue;font-weight: bold;">SẢN PHẨM LIÊN QUAN</h2>
+      </div>
+      <div class="swiper product-swiper flash-sales overflow-hidden">
+        {% for all in splienquan %}
+        <div class="product-item col-lg-3 col-md-6 col-sm-6">
+          <div class="image-holder">
+            <a href="{{url_for('trang-chu.detail',name=all.name |slug,id=all.id)}}">
+              <img src="{{url_for('static',filename='upload/'+ all.image)}}" alt="{{all.name}}" class="product-image">
+            </a>
+          </div>
+          <div class="cart-concern">
+            <div class="cart-button d-flex justify-content-between align-items-center">
+              <button type="button"  data-product-id="{{all.id}}" class="themgiohang btn-wrap cart-link d-flex align-items-center">Thêm giỏ hàng <i
+                  class="icon icon-arrow-io"></i>
+              </button>
+              <button type="button" class="view-btn tooltip d-flex">
+                <a href="{{url_for('trang-chu.sanpham')}}">
+                  <i class="icon icon-screen-full"></i>
+                  <span class="tooltip-text">Xem thêm</span>
+                </a>
+              </button>
+              <button type="button" class="wishlist-btn">
+                <i class="icon icon-heart"></i>
+              </button>
+            </div>
+          </div>
+          <div class="discount " style="color: red; font-weight: bold;">10% Off</div>
+          <div class="product-detail">
+            <h3 class="product-title">
+              <a href="{{url_for('trang-chu.detail',name=all.name |slug,id=all.id)}}">{{all.name}}</a>
+            </h3>
+            <div class="item-price text-primary" >
+              <del class="prev-price" style="color: blue; font-weight: bold;">{{"{:,.0f}".format(all.price+45000)}}/vnd</del> <p style="color: red; font-weight: bold;">{{"{:,.0f}".format(all.price)}}/vnd<p>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+  
+        <div class="swiper-pagination"></div>
+  
+      </div>
+    </div>
+  </section>
+
+  <section id="shipping-information">
+    <hr>
+    <div class="container">
+      <div class="row d-flex flex-wrap align-items-center justify-content-between">
+        <div class="col-md-3 col-sm-6">
+          <div class="icon-box">
+            <i class="icon icon-truck" style="color: blue;"></i>
+            <h4 class="block-title" style="color: rgb(238, 100, 14);">
+              <strong style="color: rgb(14, 238, 40);">Miễn phí toàn quốc</strong>  trên 99.000 vnd
+            </h4>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+          <div class="icon-box">
+            <i class="icon icon-return" style="color: blue;"></i>
+            <h4 class="block-title" style="color: rgb(238, 100, 14);">
+              <strong style="color: rgb(14, 238, 40);">Hoàn tiền</strong> trong vòng 7 ngày
+            </h4>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+          <div class="icon-box">
+            <i class="icon icon-tags1" style="color: blue;"></i>
+            <h4 class="block-title" style="color: rgb(238, 100, 14);">
+              <strong style="color: rgb(14, 238, 40);">Mua càng nhiều giảm càng sâu</strong> 50% off
+            </h4>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+          <div class="icon-box">
+            <i class="icon icon-help_outline" style="color: blue;"></i>
+            <h4 class="block-title" style="color: rgb(238, 100, 14);">
+              <strong style="color: rgb(14, 238, 40);">Bất cứ vấn đề gì?</strong> chúng tôi luôn sẵn sàng hỗ trợ.
+            </h4>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr>
+  </section>
+
+
+{% endblock %}

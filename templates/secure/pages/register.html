@@ -1,0 +1,59 @@
+{% extends('secure/layout.html') %}
+
+{% block content %}
+<div class="auth-content">
+    <div class="card">
+        <div class="card-body text-center">
+            <div class="mb-4">
+                <img class="brand" src="{{url_for('static',filename='frontend/images/logo.png')}}" alt="bootstraper logo" width="180" height="150">
+            </div>
+            <h6 class="mb-4 text-muted">TẠO TÀI KHOẢN </h6>
+            <form method="post" novalidate>
+                {{form.hidden_tag()}}
+                <div class="mb-3 text-start">
+                    <label for="name" class="form-label">
+                        {{form.fullname.label}}
+                    </label>
+                    {{form.fullname}}
+                    {% for error in form.fullname.errors %}
+                        <span style="color: red;">{{error}}</span>
+                    {% endfor %}
+                </div>
+                <div class="mb-3 text-start">
+                    <label for="email" class="form-label">{{form.email.label}}</label>
+                    {{form.email}}
+                    {% for error in form.email.errors %}
+                        <span style="color: red;">{{error}}</span>
+                    {% endfor %}
+                </div>
+                <div class="mb-3 text-start">
+                    <label for="password" class="form-label">{{form.password.label}}</label>
+                    {{form.password}}
+                    {% for error in form.password.errors %}
+                        <span style="color: red;">{{error}}</span>
+                    {% endfor %}
+                </div>
+                <div class="mb-3 text-start">
+                    <label for="phone" class="form-label">{{form.phone.label}}</label>
+                    {{form.phone}}
+                    {% for error in form.phone.errors %}
+                        <span style="color: red;">{{error}}</span>
+                    {% endfor %}
+                </div>
+                <div class="mb-3 text-start">
+                    <div class="form-check">
+                      <input class="form-check-input" name="confirm" type="checkbox" value="" id="check1">
+                      <label class="form-check-label" for="check1">
+                        Tôi đồng ý với <a href="#" tabindex="-1">điều kiện và điều khoản khi đăng kí</a>.
+                      </label>
+                    </div>
+                </div>
+                {{form.submit}}
+                <!-- <a href="" class="btn btn-danger text-white ">Đăng kí với Gmail</a> -->
+            </form>
+            <p class="mb-0 text-muted">Bạn đã có tài khoản chưa ? <a href="{{url_for('secure.login')}}">Đăng nhập</a></p>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
